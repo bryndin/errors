@@ -65,8 +65,8 @@ func TestFrameFormat(t *testing.T) {
 	}, {
 		Frame(initpc),
 		"%+s",
-		"github.com/pkg/errors.init\n" +
-			"\t.+/github.com/pkg/errors/stack_test.go",
+		"github.com/bryndin/errors.init\n" +
+			"\t.+/github.com/bryndin/errors/stack_test.go",
 	}, {
 		Frame(0),
 		"%s",
@@ -112,8 +112,8 @@ func TestFrameFormat(t *testing.T) {
 	}, {
 		Frame(initpc),
 		"%+v",
-		"github.com/pkg/errors.init\n" +
-			"\t.+/github.com/pkg/errors/stack_test.go:9",
+		"github.com/bryndin/errors.init\n" +
+			"\t.+/github.com/bryndin/errors/stack_test.go:9",
 	}, {
 		Frame(0),
 		"%v",
@@ -131,7 +131,7 @@ func TestFuncname(t *testing.T) {
 	}{
 		{"", ""},
 		{"runtime.main", "main"},
-		{"github.com/pkg/errors.funcname", "funcname"},
+		{"github.com/bryndin/errors.funcname", "funcname"},
 		{"funcname", "funcname"},
 		{"io.copyBuffer", "copyBuffer"},
 		{"main.(*R).Write", "(*R).Write"},
@@ -152,7 +152,7 @@ func TestTrimGOPATH(t *testing.T) {
 		want string
 	}{{
 		Frame(initpc),
-		"github.com/pkg/errors/stack_test.go",
+		"github.com/bryndin/errors/stack_test.go",
 	}}
 
 	for i, tt := range tests {
@@ -170,25 +170,25 @@ func TestStackTrace(t *testing.T) {
 		want []string
 	}{{
 		New("ooh"), []string{
-			"github.com/pkg/errors.TestStackTrace\n" +
-				"\t.+/github.com/pkg/errors/stack_test.go:172",
+			"github.com/bryndin/errors.TestStackTrace\n" +
+				"\t.+/github.com/bryndin/errors/stack_test.go:172",
 		},
 	}, {
 		Wrap(New("ooh"), "ahh"), []string{
-			"github.com/pkg/errors.TestStackTrace\n" +
-				"\t.+/github.com/pkg/errors/stack_test.go:177", // this is the stack of Wrap, not New
+			"github.com/bryndin/errors.TestStackTrace\n" +
+				"\t.+/github.com/bryndin/errors/stack_test.go:177", // this is the stack of Wrap, not New
 		},
 	}, {
 		Cause(Wrap(New("ooh"), "ahh")), []string{
-			"github.com/pkg/errors.TestStackTrace\n" +
-				"\t.+/github.com/pkg/errors/stack_test.go:182", // this is the stack of New
+			"github.com/bryndin/errors.TestStackTrace\n" +
+				"\t.+/github.com/bryndin/errors/stack_test.go:182", // this is the stack of New
 		},
 	}, {
 		func() error { return New("ooh") }(), []string{
-			`github.com/pkg/errors.(func·009|TestStackTrace.func1)` +
-				"\n\t.+/github.com/pkg/errors/stack_test.go:187", // this is the stack of New
-			"github.com/pkg/errors.TestStackTrace\n" +
-				"\t.+/github.com/pkg/errors/stack_test.go:187", // this is the stack of New's caller
+			`github.com/bryndin/errors.(func·009|TestStackTrace.func1)` +
+				"\n\t.+/github.com/bryndin/errors/stack_test.go:187", // this is the stack of New
+			"github.com/bryndin/errors.TestStackTrace\n" +
+				"\t.+/github.com/bryndin/errors/stack_test.go:187", // this is the stack of New's caller
 		},
 	}, {
 		Cause(func() error {
@@ -196,12 +196,12 @@ func TestStackTrace(t *testing.T) {
 				return Errorf("hello %s", fmt.Sprintf("world"))
 			}()
 		}()), []string{
-			`github.com/pkg/errors.(func·010|TestStackTrace.func2.1)` +
-				"\n\t.+/github.com/pkg/errors/stack_test.go:196", // this is the stack of Errorf
-			`github.com/pkg/errors.(func·011|TestStackTrace.func2)` +
-				"\n\t.+/github.com/pkg/errors/stack_test.go:197", // this is the stack of Errorf's caller
-			"github.com/pkg/errors.TestStackTrace\n" +
-				"\t.+/github.com/pkg/errors/stack_test.go:198", // this is the stack of Errorf's caller's caller
+			`github.com/bryndin/errors.(func·010|TestStackTrace.func2.1)` +
+				"\n\t.+/github.com/bryndin/errors/stack_test.go:196", // this is the stack of Errorf
+			`github.com/bryndin/errors.(func·011|TestStackTrace.func2)` +
+				"\n\t.+/github.com/bryndin/errors/stack_test.go:197", // this is the stack of Errorf's caller
+			"github.com/bryndin/errors.TestStackTrace\n" +
+				"\t.+/github.com/bryndin/errors/stack_test.go:198", // this is the stack of Errorf's caller's caller
 		},
 	}}
 	for i, tt := range tests {
@@ -276,10 +276,10 @@ func TestStackTraceFormat(t *testing.T) {
 		stackTrace()[:2],
 		"%+v",
 		"\n" +
-			"github.com/pkg/errors.stackTrace\n" +
-			"\t.+/github.com/pkg/errors/stack_test.go:225\n" +
-			"github.com/pkg/errors.TestStackTraceFormat\n" +
-			"\t.+/github.com/pkg/errors/stack_test.go:276",
+			"github.com/bryndin/errors.stackTrace\n" +
+			"\t.+/github.com/bryndin/errors/stack_test.go:225\n" +
+			"github.com/bryndin/errors.TestStackTraceFormat\n" +
+			"\t.+/github.com/bryndin/errors/stack_test.go:276",
 	}, {
 		stackTrace()[:2],
 		"%#v",
